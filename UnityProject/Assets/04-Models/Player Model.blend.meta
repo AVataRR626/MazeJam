@@ -1,0 +1,185 @@
+fileFormatVersion: 2
+guid: ef27eff567527d845a4384b1f306093f
+timeCreated: 1462529320
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Body
+    100002: Head
+    100004: LeftArmHand
+    100006: LeftArmLower
+    100008: LeftArmUpper
+    100010: LeftLegFoot
+    100012: LeftLegLower
+    100014: LeftLegUpper
+    100016: //RootNode
+    100018: RightArmHand
+    100020: RightArmLower
+    100022: RightArmUpper
+    100024: RightLegFoot
+    100026: RightLegLower
+    100028: RightLegUpper
+    100030: Armature
+    100032: Bone
+    100034: Bone_001
+    100036: Bone_002
+    100038: Bone_003
+    100040: Bone_004
+    100042: Bone_005
+    100044: Bone_006
+    100046: Bone_007
+    100048: Bone_008
+    100050: Bone_009
+    100052: Bone_010
+    100054: Bone_011
+    100056: Bone_012
+    100058: Bone_013
+    100060: Bone_014
+    100062: Bone_015
+    100064: Bone_016
+    100066: Bone_017
+    100068: Bone_018
+    400000: Body
+    400002: Head
+    400004: LeftArmHand
+    400006: LeftArmLower
+    400008: LeftArmUpper
+    400010: LeftLegFoot
+    400012: LeftLegLower
+    400014: LeftLegUpper
+    400016: //RootNode
+    400018: RightArmHand
+    400020: RightArmLower
+    400022: RightArmUpper
+    400024: RightLegFoot
+    400026: RightLegLower
+    400028: RightLegUpper
+    400030: Armature
+    400032: Bone
+    400034: Bone_001
+    400036: Bone_002
+    400038: Bone_003
+    400040: Bone_004
+    400042: Bone_005
+    400044: Bone_006
+    400046: Bone_007
+    400048: Bone_008
+    400050: Bone_009
+    400052: Bone_010
+    400054: Bone_011
+    400056: Bone_012
+    400058: Bone_013
+    400060: Bone_014
+    400062: Bone_015
+    400064: Bone_016
+    400066: Bone_017
+    400068: Bone_018
+    2300000: Body
+    2300002: Head
+    2300004: LeftArmHand
+    2300006: LeftArmLower
+    2300008: LeftArmUpper
+    2300010: LeftLegFoot
+    2300012: LeftLegLower
+    2300014: LeftLegUpper
+    2300016: RightArmHand
+    2300018: RightArmLower
+    2300020: RightArmUpper
+    2300022: RightLegFoot
+    2300024: RightLegLower
+    2300026: RightLegUpper
+    3300000: Body
+    3300002: Head
+    3300004: LeftArmHand
+    3300006: LeftArmLower
+    3300008: LeftArmUpper
+    3300010: LeftLegFoot
+    3300012: LeftLegLower
+    3300014: LeftLegUpper
+    3300016: RightArmHand
+    3300018: RightArmLower
+    3300020: RightArmUpper
+    3300022: RightLegFoot
+    3300024: RightLegLower
+    3300026: RightLegUpper
+    4300000: RightLegFoot
+    4300002: LeftLegFoot
+    4300004: LeftArmUpper
+    4300006: LeftArmLower
+    4300008: LeftArmHand
+    4300010: RightArmHand
+    4300012: RightArmLower
+    4300014: RightArmUpper
+    4300016: Head
+    4300018: LeftLegUpper
+    4300020: LeftLegLower
+    4300022: RightLegLower
+    4300024: RightLegUpper
+    4300026: Body
+    7400000: Default Take
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
