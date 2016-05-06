@@ -9,8 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 447870}
   - 108: {fileID: 10813108}
-  - 114: {fileID: 11456446}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Spotlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30,7 +29,7 @@ GameObject:
   - 23: {fileID: 2375110}
   - 54: {fileID: 5450106}
   - 114: {fileID: 11492592}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player1
   m_TagString: Player1
   m_Icon: {fileID: 0}
@@ -57,7 +56,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 143892}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 4.55, z: 0}
+  m_LocalPosition: {x: 0, y: 6.26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 411202}
@@ -119,8 +118,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 6
   m_Type: 2
-  m_Color: {r: 1, g: 0.7019608, b: 0.25490198, a: 1}
-  m_Intensity: 1.09
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 5.82
   m_Range: 10
   m_SpotAngle: 84.8
   m_CookieSize: 10
@@ -143,22 +142,6 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
---- !u!114 &11456446
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 143892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d6597a391341714491d9b5572be6e90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 3
-  amount: 4.92
-  startIntensity: 2.21
-  startRange: 30
-  rangeFactor: 5
 --- !u!114 &11492592
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -170,10 +153,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e2c2b8d9e035a1438901db44777c5a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  left: 97
-  right: 100
-  up: 119
-  down: 115
+  left: 276
+  right: 275
+  up: 273
+  down: 274
   speed: 10
 --- !u!135 &13581774
 SphereCollider:
