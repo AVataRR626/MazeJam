@@ -2490,7 +2490,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 411202, guid: f535e5abf1581e44ab04c7447d60e61e, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -2.4443534e-16
+      value: 0.47
       objectReference: {fileID: 0}
     - target: {fileID: 411202, guid: f535e5abf1581e44ab04c7447d60e61e, type: 2}
       propertyPath: m_LocalPosition.z
@@ -2514,7 +2514,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 411202, guid: f535e5abf1581e44ab04c7447d60e61e, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 10813108, guid: f535e5abf1581e44ab04c7447d60e61e, type: 2}
       propertyPath: m_Shadows.m_Strength
@@ -22728,7 +22728,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 489768, guid: e30b02e41da0f2c459ce0675cd599953, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -3.3902896e-16
+      value: 0.47
       objectReference: {fileID: 0}
     - target: {fileID: 489768, guid: e30b02e41da0f2c459ce0675cd599953, type: 2}
       propertyPath: m_LocalPosition.z
