@@ -21,20 +21,36 @@ public class Flicker : MonoBehaviour
     [SerializeField]
     float rangeFactor;
 
+    [SerializeField]
+    bool isDimmedByGlobalLight = false;
+
     float flicker;
 
     Light light;
     Light globLight;
 
+    float offset;
+
     void Awake()
     {
         light = GetComponent<Light>();
         globLight = FindObjectOfType<MazeLightManager>().GetComponent<Light>();
+        offset = Random.Range(0,10);
     }
     void Update()
     {
-        flicker = Mathf.Sin(Time.time * speed);
-        light.intensity = (startIntensity-globLight.intensity) + Time.deltaTime * amount * flicker;
+        flicker = Mathf.Sin(offset + Time.time * speed);
+
+        light.intensity = startIntensity + Time.deltaTime * amount * flicker;
+
+        if (isDimmedByGlobalLight)
+        {
+            light.intensity -= globLight.intensity;
+        } else
+        {
+            light.intensity += globLight.intensity;
+        }
+
         light.range = startRange + flicker * rangeFactor;
     }
 }

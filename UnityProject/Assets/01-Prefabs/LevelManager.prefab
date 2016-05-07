@@ -526,11 +526,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightSettings:
-    introTime: 6
-    darknessTime: 5
+    introTime: 5
+    firstDarknessTime: 15
+    secondaryDarknessTime: 10
     flashMaxIntensity: 3
-    flashUpRate: 2
-    flashDownRate: 3
+    flashUpRate: 5
+    flashDownRate: 5
     introDarkenRate: 1.5
   gameTags:
     Player1: Player1
@@ -540,7 +541,7 @@ MonoBehaviour:
     MapLight: MapLight
   uiSettings:
     UIRoot: {fileID: 146314}
-    introInstrTime: 6
+    introInstrTime: 4
     initialTimer: {fileID: 11490332}
     memoriseTimer: {fileID: 11431078}
     blueWinTree: {fileID: 147822}
@@ -550,6 +551,7 @@ MonoBehaviour:
   player2: {fileID: 0}
   player1WinArea: {fileID: 0}
   player2WinArea: {fileID: 0}
+  maze: {fileID: 0}
 --- !u!114 &11417106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -561,10 +563,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f8a458be58bcbb4caf861601e8bb359, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadNextOnStart: 1
-  reloadLevelOnStart: 0
+  loadNextOnStart: 0
+  reloadLevelOnStart: 1
   timer: 1
-  level: next
+  level: 
 --- !u!114 &11417764
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -653,10 +655,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f8a458be58bcbb4caf861601e8bb359, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadNextOnStart: 1
-  reloadLevelOnStart: 0
+  loadNextOnStart: 0
+  reloadLevelOnStart: 1
   timer: 1
-  level: next
+  level: 
 --- !u!114 &11445726
 MonoBehaviour:
   m_ObjectHideFlags: 1

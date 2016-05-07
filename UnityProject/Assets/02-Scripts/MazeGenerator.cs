@@ -52,8 +52,8 @@ public class MazeGenerator : MonoBehaviour {
     struct GameArea
     {
         public GameObject prefab;
-        public int positionY;
-        public int xOffset;
+        public IntVector2 holePosition;
+        public int PrefabXOffsetFromHole;
     }
 
     [System.Serializable]
@@ -151,6 +151,8 @@ public class MazeGenerator : MonoBehaviour {
         }
         */
 
+        SetupHolePositions();
+
         SetupGameAreas(starts);
         SetupGameAreas(goals);
 
@@ -165,12 +167,25 @@ public class MazeGenerator : MonoBehaviour {
         else {
             for (int i = 0; i < area.Length; i++)
             {
-                DeleteBlock(-1, area[i].positionY);
-                DeleteBlock(0, area[i].positionY);
+                DeleteBlock(area[i].holePosition.x, area[i].holePosition.y);
+                DeleteBlock(area[i].holePosition.x - 1, area[i].holePosition.y);
 
-                GameObject tempGameArea = Instantiate(area[i].prefab, new Vector3(transform.position.x + area[i].xOffset, 0, transform.position.z + area[i].positionY), Quaternion.identity) as GameObject;
+                GameObject tempGameArea = Instantiate(area[i].prefab, new Vector3(transform.position.x + area[i].PrefabXOffsetFromHole + area[i].holePosition.x, transform.position.y, transform.position.z + area[i].holePosition.y), Quaternion.identity) as GameObject;
                 tempGameArea.transform.parent = transform;
             }
+        }
+    }
+
+    void SetupHolePositions()
+    {
+        for (int i = 0; i < starts.Length; i++)
+        {
+            starts[i].holePosition.x = 0;
+        }
+
+        for (int i = 0; i < goals.Length; i++)
+        {
+            goals[i].holePosition.x = width;
         }
     }
 
@@ -184,27 +199,6 @@ public class MazeGenerator : MonoBehaviour {
                 DestroyImmediate(transform.GetChild(k).gameObject);
             }
         }
-    }
-
-    void DeleteBlocks2(int[] positions, int xValue) //
-    {
-
-        for (int i = 0; i < positions.Length; i++)
-        {
-            for (int k = transform.childCount - 1; k >= 0; k--)
-            {
-                if ((int)transform.GetChild(k).transform.position.x == (int)(xValue + transform.position.x) && (int)transform.GetChild(k).transform.position.z == (int)(positions[i] + transform.position.z))
-                {
-                    Debug.Log(xValue + transform.position.x + " : " + transform.GetChild(k).transform.position.x);
-                    DestroyImmediate(transform.GetChild(k).gameObject);
-                }
-            }
-        }
-    }
-
-    void SpawnObject(GameObject objectToSpawn)
-    {
-
     }
 
     void CreateBlankMaze()
@@ -265,13 +259,13 @@ public class MazeGenerator : MonoBehaviour {
         Gizmos.color = Color.red;
         for (int i = 0; i < starts.Length; i++)
         {
-            Gizmos.DrawCube(new Vector3(transform.position.x - 1, 0, transform.position.z + starts[i].positionY), Vector3.one);
+            Gizmos.DrawCube(new Vector3(transform.position.x - 1, 0, transform.position.z + starts[i].holePosition.y), Vector3.one);
         }
 
         Gizmos.color = Color.magenta;
         for (int i = 0; i < goals.Length; i++)
         {
-            Gizmos.DrawCube(new Vector3(transform.position.x + width, 0, transform.position.z + goals[i].positionY), Vector3.one);
+            Gizmos.DrawCube(new Vector3(transform.position.x + width, 0, transform.position.z + goals[i].holePosition.y), Vector3.one);
         }
     }
 

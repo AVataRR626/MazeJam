@@ -5,13 +5,14 @@ using System.Collections;
 public class MazeLightManager : MonoBehaviour
 {
     public float introTime;
-    public float darknessTime;
+    public float firstDarknessTime;
+    public float secondaryDarknessTime;
     public float flashMaxIntensity = 4;
     public float flashUpRate = 3;
     public float flashDownRate = 1f;
     public float introDarkenRate = 0.2f;
 
-    public int mode;//0 intro time, 1: darkening mode, 2:darkness, 3: flash up mode, 4: flash down mode,
+    public int mode;//0 intro time, 1: darkening mode, 2:first darkness, 3: flash up mode, 4: flash down mode, 5: second darkness
 
     private Light myLight;
     private float clock = 0;
@@ -50,7 +51,7 @@ public class MazeLightManager : MonoBehaviour
             else
             {
                 mode = 2;
-                clock = darknessTime;
+                clock = firstDarknessTime;
             }
         }
 
@@ -88,8 +89,21 @@ public class MazeLightManager : MonoBehaviour
             }
             else
             {
-                mode = 2;
-                clock = darknessTime;
+                mode = 5;
+                clock = secondaryDarknessTime;
+            }
+        }
+
+        if(mode == 5)
+        {
+            if (clock > 0)
+            {
+                clock -= Time.deltaTime;
+            }
+            else
+            {
+                mode = 3;
+                //myLight.intensity = flashMaxIntensity;
             }
         }
 	}

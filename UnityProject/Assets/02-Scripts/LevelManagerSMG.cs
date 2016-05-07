@@ -7,7 +7,8 @@ public class LevelManagerSMG : MonoBehaviour
     public class LightSettings
     {
         public float introTime;
-        public float darknessTime;
+        public float firstDarknessTime = 15;
+        public float secondaryDarknessTime = 10;
         public float flashMaxIntensity = 4;
         public float flashUpRate = 3;
         public float flashDownRate = 1f;
@@ -46,11 +47,17 @@ public class LevelManagerSMG : MonoBehaviour
     public WinArea player2WinArea;
     private float clock;
 
+    [SerializeField]
+    MazeGenerator maze;
+
 	// Use this for initialization
 	void Start ()
     {
         uiSettings.UIRoot.SetActive(true);
         uiSettings.initialTimer.time = uiSettings.introInstrTime;
+
+        maze = GameObject.FindObjectOfType<MazeGenerator>();
+        maze.GenerateMaze();
 
         InitPlayers();
         InitLight();
@@ -72,11 +79,13 @@ public class LevelManagerSMG : MonoBehaviour
     {
         lightManager = GameObject.FindGameObjectWithTag(gameTags.MapLight).GetComponent<MazeLightManager>();        
         lightManager.introTime = lightSettings.introTime;
-        lightManager.darknessTime = lightSettings.darknessTime;
+        lightManager.firstDarknessTime = lightSettings.firstDarknessTime;
+        lightManager.secondaryDarknessTime = lightSettings.secondaryDarknessTime;
         lightManager.flashMaxIntensity = lightSettings.flashMaxIntensity;
         lightManager.flashUpRate = lightSettings.flashUpRate;
         lightManager.flashDownRate = lightSettings.flashDownRate;
         lightManager.introDarkenRate = lightSettings.introDarkenRate;
+        
 
         //kill the light for now, but activate it once ready..
         lightManager.gameObject.SetActive(false);
