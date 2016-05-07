@@ -445,7 +445,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: <Memorise the maze instructions..>
+  m_Text: Once timer runs out, solve in darkness...
 --- !u!114 &11411816
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -511,7 +511,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Memorise Maze, Wait to Start, Solve in Dark...
+  m_Text: Prepare to memorise a mase
 --- !u!114 &11413532
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -524,7 +524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightSettings:
-    introTime: 3
+    introTime: 4
     darknessTime: 2
     flashMaxIntensity: 3
     flashUpRate: 4
@@ -538,7 +538,7 @@ MonoBehaviour:
     MapLight: MapLight
   uiSettings:
     UIRoot: {fileID: 146314}
-    introInstrTime: 3
+    introInstrTime: 4
     initialTimer: {fileID: 11490332}
     memoriseTimer: {fileID: 11431078}
     blueWinTree: {fileID: 147822}
@@ -1024,7 +1024,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 38.8}
-  m_SizeDelta: {x: 375.38, y: 80}
+  m_SizeDelta: {x: 400, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22444724
 RectTransform:
