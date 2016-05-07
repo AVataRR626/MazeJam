@@ -3,8 +3,9 @@
 using UnityEngine;
 using System.Collections;
 public class Flicker : MonoBehaviour
-{   
+{
 
+    public KeyCode reduceKey;
 
     [SerializeField]
     float speed;
@@ -42,6 +43,11 @@ public class Flicker : MonoBehaviour
         flicker = Mathf.Sin(offset + Time.time * speed);
 
         light.intensity = startIntensity + Time.deltaTime * amount * flicker;
+
+        if(Input.GetKey(reduceKey))
+        {
+            light.intensity *= 0.5f;
+        }
 
         if (isDimmedByGlobalLight)
         {

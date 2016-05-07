@@ -447,7 +447,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Once timer runs out, solve in darkness...
+  m_Text: Don't move yet. Memorize the maze....
 --- !u!114 &11411816
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -532,7 +532,7 @@ MonoBehaviour:
     flashMaxIntensity: 3
     flashUpRate: 5
     flashDownRate: 5
-    introDarkenRate: 1.5
+    introDarkenRate: 2.5
   gameTags:
     Player1: Player1
     Player2: Player2

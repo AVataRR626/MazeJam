@@ -56,7 +56,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 180598}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.22, y: 0.47, z: 5.37}
+  m_LocalPosition: {x: 17.65, y: 0.47, z: -9.63}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 437926}
@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d6597a391341714491d9b5572be6e90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reduceKey: 303
   speed: 28
   amount: 2
   startIntensity: 5
@@ -176,7 +177,10 @@ MonoBehaviour:
   right: 275
   up: 273
   down: 274
-  speed: 10
+  sprint: 0
+  walkSpeed: 300
+  sprintSpeed: 600
+  pacmanMode: 0
 --- !u!135 &13573242
 SphereCollider:
   m_ObjectHideFlags: 1
