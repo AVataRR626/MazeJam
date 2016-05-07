@@ -57,13 +57,14 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 470884}
+  - 114: {fileID: 11426764}
   m_Layer: 0
   m_Name: PlayerRedWinTree
   m_TagString: RedWinTree
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &123878
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,13 +140,14 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 452272}
+  - 114: {fileID: 11470988}
   m_Layer: 0
   m_Name: PlayerBlueWinTree
   m_TagString: BlueWinTree
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &171030
 GameObject:
   m_ObjectHideFlags: 1
@@ -532,6 +534,8 @@ MonoBehaviour:
     introInstrTime: 5
     initialTimer: {fileID: 11490332}
     memoriseTimer: {fileID: 11431078}
+    blueWinTree: {fileID: 147822}
+    redWinTree: {fileID: 121846}
   lightSettings:
     introTime: 10
     darknessTime: 5
@@ -542,6 +546,8 @@ MonoBehaviour:
   lightManager: {fileID: 0}
   player1: {fileID: 0}
   player2: {fileID: 0}
+  player1WinArea: {fileID: 0}
+  player2WinArea: {fileID: 0}
 --- !u!114 &11417764
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -556,6 +562,17 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 5
+--- !u!114 &11426764
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 121846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 232a2d16487ee7a4fb8e74885e51f50c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11431078
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -749,6 +766,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 5
+--- !u!114 &11470988
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 232a2d16487ee7a4fb8e74885e51f50c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11474154
 MonoBehaviour:
   m_ObjectHideFlags: 1

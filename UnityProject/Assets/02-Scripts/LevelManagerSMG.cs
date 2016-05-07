@@ -23,6 +23,8 @@ public class LevelManagerSMG : MonoBehaviour
         public float introInstrTime = 5;
         public Countdown initialTimer;
         public Countdown memoriseTimer;
+        public GameObject blueWinTree;
+        public GameObject redWinTree;
     }
     public UISettings uiSettings;
 
@@ -40,6 +42,8 @@ public class LevelManagerSMG : MonoBehaviour
     public MazeLightManager lightManager;
     public SimpleControl player1;
     public SimpleControl player2;
+    public WinArea player1WinArea;
+    public WinArea player2WinArea;
     private float clock;
 
 	// Use this for initialization
@@ -50,6 +54,7 @@ public class LevelManagerSMG : MonoBehaviour
 
         InitPlayers();
         InitLight();
+        InitWinAreas();
     }
 
     void InitPlayers()
@@ -80,13 +85,26 @@ public class LevelManagerSMG : MonoBehaviour
         uiSettings.memoriseTimer.time = lightManager.introTime;
     }
 
+    void InitWinAreas()
+    {
+        player1WinArea = GameObject.FindGameObjectWithTag(gameTags.Player1WinArea).GetComponent<WinArea>();
+        player2WinArea = GameObject.FindGameObjectWithTag(gameTags.Player2WinArea).GetComponent<WinArea>();
+
+        player1WinArea.winTree = uiSettings.blueWinTree;
+        player2WinArea.winTree = uiSettings.redWinTree;
+
+        uiSettings.blueWinTree.SetActive(false);
+        uiSettings.redWinTree.SetActive(false);
+    }
+
     void StartMazeLight()
     {
         lightManager.gameObject.SetActive(true);
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 	
 	}
 }
