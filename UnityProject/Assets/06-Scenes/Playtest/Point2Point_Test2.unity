@@ -9609,18 +9609,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 11412274, guid: 8b4bcf61f516930409daddfe37e2f2f1, type: 2}
-      propertyPath: m_Text
-      value: Prepare to memorise a maze
-      objectReference: {fileID: 0}
-    - target: {fileID: 11413532, guid: 8b4bcf61f516930409daddfe37e2f2f1, type: 2}
-      propertyPath: uiSettings.introInstrTime
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 11413532, guid: 8b4bcf61f516930409daddfe37e2f2f1, type: 2}
-      propertyPath: lightSettings.introTime
-      value: 6
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8b4bcf61f516930409daddfe37e2f2f1, type: 2}
   m_IsPrefabParent: 0
