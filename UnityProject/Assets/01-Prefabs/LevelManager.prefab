@@ -511,7 +511,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: <Instructions go here>
+  m_Text: Memorise Maze, Wait to Start, Solve in Dark...
 --- !u!114 &11413532
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -523,6 +523,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e343b9ae9caa847990811455bd7a2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightSettings:
+    introTime: 3
+    darknessTime: 2
+    flashMaxIntensity: 3
+    flashUpRate: 4
+    flashDownRate: 3
+    introDarkenRate: 1.5
   gameTags:
     Player1: Player1
     Player2: Player2
@@ -531,18 +538,11 @@ MonoBehaviour:
     MapLight: MapLight
   uiSettings:
     UIRoot: {fileID: 146314}
-    introInstrTime: 5
+    introInstrTime: 3
     initialTimer: {fileID: 11490332}
     memoriseTimer: {fileID: 11431078}
     blueWinTree: {fileID: 147822}
     redWinTree: {fileID: 121846}
-  lightSettings:
-    introTime: 10
-    darknessTime: 5
-    flashMaxIntensity: 4
-    flashUpRate: 3
-    flashDownRate: 1.5
-    introDarkenRate: 1.5
   lightManager: {fileID: 0}
   player1: {fileID: 0}
   player2: {fileID: 0}
@@ -573,6 +573,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 232a2d16487ee7a4fb8e74885e51f50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  freezeTime: 10
+  delay: 0
+  activateOnStart: 1
 --- !u!114 &11431078
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -777,6 +780,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 232a2d16487ee7a4fb8e74885e51f50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  freezeTime: 10
+  delay: 0
+  activateOnStart: 1
 --- !u!114 &11474154
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -2,7 +2,18 @@
 using System.Collections;
 
 public class LevelManagerSMG : MonoBehaviour
-{   
+{
+    [System.Serializable]
+    public class LightSettings
+    {
+        public float introTime;
+        public float darknessTime;
+        public float flashMaxIntensity = 4;
+        public float flashUpRate = 3;
+        public float flashDownRate = 1f;
+        public float introDarkenRate = 0.2f;
+    }
+    public LightSettings lightSettings;
 
     [System.Serializable]
     public class GameTags
@@ -28,17 +39,6 @@ public class LevelManagerSMG : MonoBehaviour
     }
     public UISettings uiSettings;
 
-    [System.Serializable]
-    public class LightSettings
-    {
-        public float introTime;
-        public float darknessTime;
-        public float flashMaxIntensity = 4;
-        public float flashUpRate = 3;
-        public float flashDownRate = 1f;
-        public float introDarkenRate = 0.2f;
-    }
-    public LightSettings lightSettings;
     public MazeLightManager lightManager;
     public SimpleControl player1;
     public SimpleControl player2;
