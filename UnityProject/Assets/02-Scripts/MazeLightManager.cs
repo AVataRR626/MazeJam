@@ -6,11 +6,12 @@ public class MazeLightManager : MonoBehaviour
 {
     public float introTime;
     public float darknessTime;
-    public float flashIntensity = 4;
-    public float flashRate = 1f;
+    public float flashMaxIntensity = 4;
+    public float flashUpRate = 3;
+    public float flashDownRate = 1f;
     public float introDarkenRate = 0.2f;
 
-    public int mode;//0 intro time, 1: darkening mode, 2:darkness, 3: flash mode,
+    public int mode;//0 intro time, 1: darkening mode, 2:darkness, 3: flash up mode, 4: flash down mode,
 
     private Light myLight;
     private float clock = 0;
@@ -63,15 +64,27 @@ public class MazeLightManager : MonoBehaviour
             else
             {   
                 mode = 3;
-                myLight.intensity = flashIntensity;
+                //myLight.intensity = flashMaxIntensity;
             }
         }
 
         if(mode == 3)
         {
+            if(myLight.intensity < flashMaxIntensity)
+            {
+                myLight.intensity += flashUpRate * Time.deltaTime;
+            }
+            else
+            {
+                mode = 4;
+            }
+        }
+
+        if(mode == 4)
+        {
             if(myLight.intensity > 0)
             {
-                myLight.intensity -= flashRate * Time.deltaTime;
+                myLight.intensity -= flashDownRate * Time.deltaTime;
             }
             else
             {
