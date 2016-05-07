@@ -8,38 +8,66 @@ public class MazeGenerator : MonoBehaviour {
 	[SerializeField]
 	GameObject wallPiece;
 
-	[SerializeField]
+    [SerializeField]
 	int width;
 
 	[SerializeField]
 	int height;
 
+    [SerializeField]
+    GameArea[] starts;
+
+    [SerializeField]
+    GameArea[] goals;
+
+    //////
+
+  
+    [SerializeField]
+    IntVector2 AlgorithmStartingPosition;
+
+    [SerializeField]
+    bool useRandomAlgorithmStartingPos = false;
+
+    /*
+  [SerializeField]
+  IntVector2 endPosition;
+
+  [SerializeField]
+  bool useRandomEndPos = false;
+
+  [SerializeField]
+  int deletionRange = 0;
+  */
+
+    ////////
+
     Cell[][] maze;
-
-    [SerializeField]
-    int startingX; //just for visualization purposes
-
-    [SerializeField]
-    int startingY; //just for visualization purposes
-
-    [SerializeField]
-    bool useRandomStartingPos = false;
-
-    [SerializeField]
-    int endX; //just for visualization purposes
-
-    [SerializeField]
-    int endY; //just for visualization purposes
-
-    [SerializeField]
-    bool useRandomEndPos = false;
-
-    [SerializeField]
-    int deletionRange = 0;
 
     void Awake () {
 		Debug.Log ("Awake");
 	}
+
+    [System.Serializable]
+    struct GameArea
+    {
+        public GameObject prefab;
+        public int positionY;
+        public int xOffset;
+    }
+
+    [System.Serializable]
+    struct IntVector2
+    {
+        public int x;
+        public int y;
+
+        public IntVector2(int _x, int _y)
+        {
+            x = _x;
+            y = _y;
+        }
+    }
 
     public void GenerateMaze()
     {
@@ -70,15 +98,16 @@ public class MazeGenerator : MonoBehaviour {
         List<Cell> cells = new List<Cell>();
 
         //Add one cell to C, at random, mark as visited
-        if (useRandomStartingPos)
+        if (useRandomAlgorithmStartingPos)
         {
-            startingX = Random.Range(0, width);
-            startingY = Random.Range(0, height);
+            AlgorithmStartingPosition.x = (int)Random.Range(0, width);
+            AlgorithmStartingPosition.y = (int)Random.Range(0, height);
         }
-        cells.Add(maze[startingX][startingY]);
+
+        cells.Add(maze[AlgorithmStartingPosition.x][AlgorithmStartingPosition.y]);
         DestroyImmediate(cells[cells.Count - 1].associatedWallPiece);
         cells[cells.Count - 1].state = State.Visited;
-        Debug.Log("Starting Cell: x-" + cells[cells.Count - 1].x + " y-" + cells[cells.Count - 1].y);
+        Debug.Log("Starting Cell - x:" + cells[cells.Count - 1].position.x + " y:" + cells[cells.Count - 1].position.y);
 
         while (cells.Count > 0) {
             //get neighbours
@@ -97,13 +126,85 @@ public class MazeGenerator : MonoBehaviour {
             }
         }
 
+        /*
         if (useRandomEndPos)
         {
-            endX = Random.Range(0, width);
-            endY = Random.Range(0, height);
+            endPosition.x = (int)Random.Range(0, width);
+            endPosition.y = (int)Random.Range(0, height);
         }
-        DeleteBlocksAround(startingX, startingY);
-        DeleteBlocksAround(endX, endY);
+        DeleteBlocksAround(startingPosition);
+        DeleteBlocksAround(endPosition);
+        
+        
+        DeleteBlocks(starts, -1);
+        DeleteBlocks(starts, 0);
+        DeleteBlocks(goals, width - 1);
+        DeleteBlocks(goals, width);
+
+        for (int i = 0; i < starts.Length; i++)
+        {
+            SpawnObject(PlayerSpawner);
+        }
+        for (int i = 0; i < goals.Length; i++)
+        {
+            SpawnObject(GoalSpawner);
+        }
+        */
+
+        SetupGameAreas(starts);
+        SetupGameAreas(goals);
+
+    }
+
+    void SetupGameAreas(GameArea[] area)
+    {
+        if (area == null)
+        {
+            Debug.Log("Game Areas not setup in inscpector");
+        }
+        else {
+            for (int i = 0; i < area.Length; i++)
+            {
+                DeleteBlock(-1, area[i].positionY);
+                DeleteBlock(0, area[i].positionY);
+
+                GameObject tempGameArea = Instantiate(area[i].prefab, new Vector3(transform.position.x + area[i].xOffset, 0, transform.position.z + area[i].positionY), Quaternion.identity) as GameObject;
+                tempGameArea.transform.parent = transform;
+            }
+        }
+    }
+
+    void DeleteBlock(int xValue, int yValue) //
+    {
+        for (int k = transform.childCount - 1; k >= 0; k--)
+        {
+            if ((int)transform.GetChild(k).transform.position.x == (int)(xValue + transform.position.x) && (int)transform.GetChild(k).transform.position.z == (int)(yValue + transform.position.z))
+            {
+                Debug.Log(xValue + transform.position.x + " : " + transform.GetChild(k).transform.position.x);
+                DestroyImmediate(transform.GetChild(k).gameObject);
+            }
+        }
+    }
+
+    void DeleteBlocks2(int[] positions, int xValue) //
+    {
+
+        for (int i = 0; i < positions.Length; i++)
+        {
+            for (int k = transform.childCount - 1; k >= 0; k--)
+            {
+                if ((int)transform.GetChild(k).transform.position.x == (int)(xValue + transform.position.x) && (int)transform.GetChild(k).transform.position.z == (int)(positions[i] + transform.position.z))
+                {
+                    Debug.Log(xValue + transform.position.x + " : " + transform.GetChild(k).transform.position.x);
+                    DestroyImmediate(transform.GetChild(k).gameObject);
+                }
+            }
+        }
+    }
+
+    void SpawnObject(GameObject objectToSpawn)
+    {
+
     }
 
     void CreateBlankMaze()
@@ -117,7 +218,7 @@ public class MazeGenerator : MonoBehaviour {
                 GameObject tempPiece = Instantiate(wallPiece, transform.position + spawnPosition, Quaternion.identity) as GameObject;
                 tempPiece.transform.parent = transform;
 
-                Cell tempCell = new Cell(x, y, tempPiece, maze);
+                Cell tempCell = new Cell(new IntVector2(x, y), tempPiece, maze);
                 maze[x][y] = tempCell;
             }
         }
@@ -142,45 +243,48 @@ public class MazeGenerator : MonoBehaviour {
 
                 GameObject tempPiece = Instantiate(wallPiece, transform.position + spawnPosition, Quaternion.identity) as GameObject;
                 tempPiece.transform.parent = transform;
-               
             }
         }
-
     }
 
-    void DeleteBlocksAround(int x, int y)
+    /*
+    void DeleteBlocksAround(IntVector2 position)
     {
         for (int i = transform.childCount - 1; i >= 0; i--)
         {
-            if(Mathf.Abs(transform.GetChild(i).transform.position.x - x) <= deletionRange && Mathf.Abs(transform.GetChild(i).transform.position.z - y) <= deletionRange)
+            if(Mathf.Abs(transform.GetChild(i).transform.position.x - (position.x + transform.position.x)) <= deletionRange && Mathf.Abs(transform.GetChild(i).transform.position.z - (position.y + transform.position.z)) <= deletionRange)
             {
                 DestroyImmediate(transform.GetChild(i).gameObject); 
             }
         }
     }
-
+    */
 
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawCube(new Vector3(startingX, 0 , startingY), Vector3.one);
+        for (int i = 0; i < starts.Length; i++)
+        {
+            Gizmos.DrawCube(new Vector3(transform.position.x - 1, 0, transform.position.z + starts[i].positionY), Vector3.one);
+        }
 
         Gizmos.color = Color.magenta;
-        Gizmos.DrawCube(new Vector3(endX, 0, endY), Vector3.one);
+        for (int i = 0; i < goals.Length; i++)
+        {
+            Gizmos.DrawCube(new Vector3(transform.position.x + width, 0, transform.position.z + goals[i].positionY), Vector3.one);
+        }
     }
 
     private class Cell
     {
-        public int x;
-        public int y;
+        public IntVector2 position;
         public GameObject associatedWallPiece;
         public State state = State.Unvisited;
         private Cell[][] mazeParent;
 
-        public Cell(int _x, int _y, GameObject _g, Cell[][] parent)
+        public Cell(IntVector2 pos, GameObject _g, Cell[][] parent)
         {
-            x = _x;
-            y = _y;
+            position = pos;
             associatedWallPiece = _g;
             mazeParent = parent;
         }
@@ -199,24 +303,24 @@ public class MazeGenerator : MonoBehaviour {
         {
             List<Cell> neighbours = new List<Cell>();
 
-            if(IsCellOnGrid(x - 1, y))
+            if(IsCellOnGrid(position.x - 1, position.y))
             {
-                neighbours.Add(maze[x - 1][y]);
+                neighbours.Add(maze[position.x - 1][position.y]);
             }
 
-            if (IsCellOnGrid(x + 1, y))
+            if (IsCellOnGrid(position.x + 1, position.y))
             {
-                neighbours.Add(maze[x + 1][y]);
+                neighbours.Add(maze[position.x + 1][position.y]);
             }
 
-            if (IsCellOnGrid(x, y - 1))
+            if (IsCellOnGrid(position.x, position.y - 1))
             {
-                neighbours.Add(maze[x][y - 1]);
+                neighbours.Add(maze[position.x][position.y - 1]);
             }
 
-            if (IsCellOnGrid(x, y + 1))
+            if (IsCellOnGrid(position.x, position.y + 1))
             {
-                neighbours.Add(maze[x][y + 1]);
+                neighbours.Add(maze[position.x][position.y + 1]);
             }
 
             //check that chosen neighbours havent been visited
@@ -233,160 +337,160 @@ public class MazeGenerator : MonoBehaviour {
             {
                 bool canMoveToCell = true;
 
-                if (neighbours[i].x < x) //we've moved in -x so check +/- y
+                if (neighbours[i].position.x < position.x) //we've moved in -x so check +/- y
                 {
 
-                    if (IsCellOnGrid(neighbours[i].x - 1, neighbours[i].y + 1))
+                    if (IsCellOnGrid(neighbours[i].position.x - 1, neighbours[i].position.y + 1))
                     {
-                        if (maze[neighbours[i].x - 1][ neighbours[i].y + 1].state != State.Unvisited)
+                        if (maze[neighbours[i].position.x - 1][ neighbours[i].position.y + 1].state != State.Unvisited)
                         {
                             canMoveToCell = false;
                         }
                     }
-                    if (IsCellOnGrid(neighbours[i].x - 1, neighbours[i].y))
+                    if (IsCellOnGrid(neighbours[i].position.x - 1, neighbours[i].position.y))
                     {
-                        if (maze[neighbours[i].x - 1][ neighbours[i].y].state != State.Unvisited)
+                        if (maze[neighbours[i].position.x - 1][ neighbours[i].position.y].state != State.Unvisited)
                         {
                             canMoveToCell = false;
                         }
                     }
-                    if (IsCellOnGrid(neighbours[i].x - 1, neighbours[i].y - 1))
+                    if (IsCellOnGrid(neighbours[i].position.x - 1, neighbours[i].position.y - 1))
                     {
-                        if (maze[neighbours[i].x - 1][ neighbours[i].y - 1].state != State.Unvisited)
+                        if (maze[neighbours[i].position.x - 1][ neighbours[i].position.y - 1].state != State.Unvisited)
                         {
                             canMoveToCell = false;
                         }
                     }
-                    if (IsCellOnGrid(neighbours[i].x, neighbours[i].y + 1))
+                    if (IsCellOnGrid(neighbours[i].position.x, neighbours[i].position.y + 1))
                     {
-                        if (maze[neighbours[i].x][neighbours[i].y + 1].state != State.Unvisited)
+                        if (maze[neighbours[i].position.x][neighbours[i].position.y + 1].state != State.Unvisited)
                         {
                             canMoveToCell = false;
                         }
                     }
-                    if (IsCellOnGrid(neighbours[i].x, neighbours[i].y - 1))
+                    if (IsCellOnGrid(neighbours[i].position.x, neighbours[i].position.y - 1))
                     {
-                        if (maze[neighbours[i].x][neighbours[i].y - 1].state != State.Unvisited)
+                        if (maze[neighbours[i].position.x][neighbours[i].position.y - 1].state != State.Unvisited)
                         {
                             canMoveToCell = false;
                         }
                     }
                 }
 
-                if (neighbours[i].x > x) //we've moved in +x so check +/- y
+                if (neighbours[i].position.x > position.x) //we've moved in +x so check +/- y
                 {
 
-                    if (IsCellOnGrid(neighbours[i].x + 1, neighbours[i].y + 1))
+                    if (IsCellOnGrid(neighbours[i].position.x + 1, neighbours[i].position.y + 1))
                     {
-                        if (maze[neighbours[i].x + 1][neighbours[i].y + 1].state != State.Unvisited)
+                        if (maze[neighbours[i].position.x + 1][neighbours[i].position.y + 1].state != State.Unvisited)
                         {
                             canMoveToCell = false;
                         }
                     }
-                    if (IsCellOnGrid(neighbours[i].x + 1, neighbours[i].y))
+                    if (IsCellOnGrid(neighbours[i].position.x + 1, neighbours[i].position.y))
                     {
-                        if (maze[neighbours[i].x + 1][neighbours[i].y].state != State.Unvisited)
+                        if (maze[neighbours[i].position.x + 1][neighbours[i].position.y].state != State.Unvisited)
                         {
                             canMoveToCell = false;
                         }
                     }
-                    if (IsCellOnGrid(neighbours[i].x + 1, neighbours[i].y - 1))
+                    if (IsCellOnGrid(neighbours[i].position.x + 1, neighbours[i].position.y - 1))
                     {
-                        if (maze[neighbours[i].x + 1][neighbours[i].y - 1].state != State.Unvisited)
+                        if (maze[neighbours[i].position.x + 1][neighbours[i].position.y - 1].state != State.Unvisited)
                         {
                             canMoveToCell = false;
                         }
                     }
-                    if (IsCellOnGrid(neighbours[i].x, neighbours[i].y + 1))
+                    if (IsCellOnGrid(neighbours[i].position.x, neighbours[i].position.y + 1))
                     {
-                        if (maze[neighbours[i].x][neighbours[i].y + 1].state != State.Unvisited)
+                        if (maze[neighbours[i].position.x][neighbours[i].position.y + 1].state != State.Unvisited)
                         {
                             canMoveToCell = false;
                         }
                     }
-                    if (IsCellOnGrid(neighbours[i].x, neighbours[i].y - 1))
+                    if (IsCellOnGrid(neighbours[i].position.x, neighbours[i].position.y - 1))
                     {
-                        if (maze[neighbours[i].x][neighbours[i].y - 1].state != State.Unvisited)
+                        if (maze[neighbours[i].position.x][neighbours[i].position.y - 1].state != State.Unvisited)
                         {
                             canMoveToCell = false;
                         }
                     }
                 }
 
-                if (neighbours[i].y > y) //we've moved in +y so check +/- x
+                if (neighbours[i].position.y > position.y) //we've moved in +y so check +/- x
                 {
 
-                    if (IsCellOnGrid(neighbours[i].x - 1, neighbours[i].y + 1))
+                    if (IsCellOnGrid(neighbours[i].position.x - 1, neighbours[i].position.y + 1))
                     {
-                        if (maze[neighbours[i].x - 1][neighbours[i].y + 1].state != State.Unvisited)
+                        if (maze[neighbours[i].position.x - 1][neighbours[i].position.y + 1].state != State.Unvisited)
                         {
                             canMoveToCell = false;
                         }
                     }
-                    if (IsCellOnGrid(neighbours[i].x, neighbours[i].y + 1))
+                    if (IsCellOnGrid(neighbours[i].position.x, neighbours[i].position.y + 1))
                     {
-                        if (maze[neighbours[i].x][neighbours[i].y + 1].state != State.Unvisited)
+                        if (maze[neighbours[i].position.x][neighbours[i].position.y + 1].state != State.Unvisited)
                         {
                             canMoveToCell = false;
                         }
                     }
-                    if (IsCellOnGrid(neighbours[i].x + 1, neighbours[i].y + 1))
+                    if (IsCellOnGrid(neighbours[i].position.x + 1, neighbours[i].position.y + 1))
                     {
-                        if (maze[neighbours[i].x + 1][neighbours[i].y + 1].state != State.Unvisited)
+                        if (maze[neighbours[i].position.x + 1][neighbours[i].position.y + 1].state != State.Unvisited)
                         {
                             canMoveToCell = false;
                         }
                     }
-                    if (IsCellOnGrid(neighbours[i].x - 1, neighbours[i].y))
+                    if (IsCellOnGrid(neighbours[i].position.x - 1, neighbours[i].position.y))
                     {
-                        if (maze[neighbours[i].x - 1][neighbours[i].y].state != State.Unvisited)
+                        if (maze[neighbours[i].position.x - 1][neighbours[i].position.y].state != State.Unvisited)
                         {
                             canMoveToCell = false;
                         }
                     }
-                    if (IsCellOnGrid(neighbours[i].x + 1, neighbours[i].y))
+                    if (IsCellOnGrid(neighbours[i].position.x + 1, neighbours[i].position.y))
                     {
-                        if (maze[neighbours[i].x + 1][neighbours[i].y].state != State.Unvisited)
+                        if (maze[neighbours[i].position.x + 1][neighbours[i].position.y].state != State.Unvisited)
                         {
                             canMoveToCell = false;
                         }
                     }
                 }
 
-                if (neighbours[i].y < y) //we've moved in -y so check +/- x
+                if (neighbours[i].position.y < position.y) //we've moved in -y so check +/- x
                 {
 
-                    if (IsCellOnGrid(neighbours[i].x - 1, neighbours[i].y - 1))
+                    if (IsCellOnGrid(neighbours[i].position.x - 1, neighbours[i].position.y - 1))
                     {
-                        if (maze[neighbours[i].x - 1][neighbours[i].y - 1].state != State.Unvisited)
+                        if (maze[neighbours[i].position.x - 1][neighbours[i].position.y - 1].state != State.Unvisited)
                         {
                             canMoveToCell = false;
                         }
                     }
-                    if (IsCellOnGrid(neighbours[i].x, neighbours[i].y - 1))
+                    if (IsCellOnGrid(neighbours[i].position.x, neighbours[i].position.y - 1))
                     {
-                        if (maze[neighbours[i].x][neighbours[i].y - 1].state != State.Unvisited)
+                        if (maze[neighbours[i].position.x][neighbours[i].position.y - 1].state != State.Unvisited)
                         {
                             canMoveToCell = false;
                         }
                     }
-                    if (IsCellOnGrid(neighbours[i].x + 1, neighbours[i].y - 1))
+                    if (IsCellOnGrid(neighbours[i].position.x + 1, neighbours[i].position.y - 1))
                     {
-                        if (maze[neighbours[i].x + 1][neighbours[i].y - 1].state != State.Unvisited)
+                        if (maze[neighbours[i].position.x + 1][neighbours[i].position.y - 1].state != State.Unvisited)
                         {
                             canMoveToCell = false;
                         }
                     }
-                    if (IsCellOnGrid(neighbours[i].x - 1, neighbours[i].y))
+                    if (IsCellOnGrid(neighbours[i].position.x - 1, neighbours[i].position.y))
                     {
-                        if (maze[neighbours[i].x - 1][neighbours[i].y].state != State.Unvisited)
+                        if (maze[neighbours[i].position.x - 1][neighbours[i].position.y].state != State.Unvisited)
                         {
                             canMoveToCell = false;
                         }
                     }
-                    if (IsCellOnGrid(neighbours[i].x + 1, neighbours[i].y))
+                    if (IsCellOnGrid(neighbours[i].position.x + 1, neighbours[i].position.y))
                     {
-                        if (maze[neighbours[i].x + 1][neighbours[i].y].state != State.Unvisited)
+                        if (maze[neighbours[i].position.x + 1][neighbours[i].position.y].state != State.Unvisited)
                         {
                             canMoveToCell = false;
                         }
@@ -401,11 +505,7 @@ public class MazeGenerator : MonoBehaviour {
 
             return neighbours;
         }
-
-
     }
-
-    
 
     public enum State
     {
@@ -413,6 +513,4 @@ public class MazeGenerator : MonoBehaviour {
         Backtracked,
         Unvisited,
     }
-
-
 }

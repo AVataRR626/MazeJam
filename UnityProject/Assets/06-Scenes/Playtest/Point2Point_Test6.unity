@@ -44303,7 +44303,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1734932823}
-  - 114: {fileID: 1734932822}
   m_Layer: 0
   m_Name: MazeGenerator
   m_TagString: Untagged
@@ -44311,27 +44310,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1734932822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1734932821}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 710aadf425c43964dab060b3ed4fccbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wallPiece: {fileID: 2040121535}
-  width: 30
-  height: 30
-  startingX: 0
-  startingY: 15
-  useRandomStartingPos: 0
-  endX: 14
-  endY: -14
-  useRandomEndPos: 0
-  deletionRange: 0
 --- !u!4 &1734932823
 Transform:
   m_ObjectHideFlags: 0
@@ -51696,10 +51674,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bf03dc6bcab28a54f9bba3982ddd0f60, type: 3}
   m_IsPrefabParent: 0
---- !u!1 &2040121535 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 100000, guid: bf03dc6bcab28a54f9bba3982ddd0f60, type: 3}
-  m_PrefabInternal: {fileID: 2040121534}
 --- !u!1 &2041168820
 GameObject:
   m_ObjectHideFlags: 0
