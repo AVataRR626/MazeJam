@@ -4,6 +4,7 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody))]
 public class SimpleControl : MonoBehaviour
 {
+    public float disableTimer = 30;
     Rigidbody myRigidbody;
     public KeyCode left;
     public KeyCode right;
@@ -20,6 +21,19 @@ public class SimpleControl : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update ()
+    {
+        if(disableTimer <= 0)
+        {
+            ManageMove();
+        }
+        else
+        {
+            disableTimer -= Time.deltaTime;
+        }
+
+	}
+
+    void ManageMove()
     {
         Vector3 delta = Vector3.zero;
 
@@ -46,6 +60,5 @@ public class SimpleControl : MonoBehaviour
         //Debug.Log(delta);
 
         myRigidbody.MovePosition(transform.position + delta * speed * Time.deltaTime);
-
-	}
+    }
 }
