@@ -58,6 +58,7 @@ public class SimpleControl : MonoBehaviour
         }
 
         //Debug.Log(delta);
+        myRigidbody.velocity = Vector3.zero;
 
         myRigidbody.MovePosition(transform.position + delta * speed * Time.deltaTime);
     }
