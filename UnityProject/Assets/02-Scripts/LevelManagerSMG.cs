@@ -22,6 +22,7 @@ public class LevelManagerSMG : MonoBehaviour
         public GameObject UIRoot;        
         public float introInstrTime = 5;
         public Countdown initialTimer;
+        public Countdown memoriseTimer;
     }
     public UISettings uiSettings;
 
@@ -75,6 +76,8 @@ public class LevelManagerSMG : MonoBehaviour
         //kill the light for now, but activate it once ready..
         lightManager.gameObject.SetActive(false);
         Invoke("StartMazeLight", uiSettings.introInstrTime);
+
+        uiSettings.memoriseTimer.time = lightManager.introTime;
     }
 
     void StartMazeLight()

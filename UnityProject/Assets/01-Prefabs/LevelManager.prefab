@@ -529,10 +529,11 @@ MonoBehaviour:
     MapLight: MapLight
   uiSettings:
     UIRoot: {fileID: 146314}
-    introInstrTime: 3
+    introInstrTime: 5
     initialTimer: {fileID: 11490332}
+    memoriseTimer: {fileID: 11431078}
   lightSettings:
-    introTime: 5
+    introTime: 10
     darknessTime: 5
     flashMaxIntensity: 4
     flashUpRate: 3
