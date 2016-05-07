@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Player1
   - Player2
+  - BlueWinTree
+  - RedWinTree
+  - MapLight
   layers:
   - Default
   - TransparentFX
