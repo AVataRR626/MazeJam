@@ -573,7 +573,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -906,7 +906,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Press ESC to return to main menu
+  m_Text: Hold ESC to return to main menu
 --- !u!114 &11413532
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -942,7 +942,7 @@ MonoBehaviour:
     redWinTree: {fileID: 121846}
     uiCurtain: {fileID: 11445726}
     curtainFadeOutRate: 0.6
-    curtainFadeInRate: 2
+    curtainFadeInRate: 5
     mainMenu: MainMenu
     winScreenTree: {fileID: 118200}
     introScoreScreen: {fileID: 161708}

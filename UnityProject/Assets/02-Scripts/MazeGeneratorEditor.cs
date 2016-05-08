@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
+
 using UnityEngine;
 
 [CustomEditor(typeof(MazeGenerator))]
@@ -15,3 +17,4 @@ class MazeGeneratorEditor : Editor
         }
     }
 }
+#endif
