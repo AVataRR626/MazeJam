@@ -178,8 +178,8 @@ MonoBehaviour:
   up: 273
   down: 274
   sprint: 0
-  walkSpeed: 300
-  sprintSpeed: 600
+  walkSpeed: 5
+  sprintSpeed: 10
   pacmanMode: 0
 --- !u!135 &13573242
 SphereCollider:

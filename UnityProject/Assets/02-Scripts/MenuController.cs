@@ -14,7 +14,9 @@ public class MenuController : MonoBehaviour {
 
     public void StartLevel(string name)
     {
-        SceneManager.LoadScene(name);
+        SceneManager.LoadScene("Slideshow");
+        PlayerPrefs.SetString("LoadedLevel", name);
+
         /*
         ïf(name == "Convergence") {
             
