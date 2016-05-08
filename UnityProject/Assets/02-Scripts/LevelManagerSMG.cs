@@ -33,20 +33,24 @@ public class LevelManagerSMG : MonoBehaviour
     [System.Serializable]
     public class UISettings
     {
-        public GameObject UIRoot;        
+        public GameObject UIRoot;
+        public int winThreshold;        
         public float introInstrTime = 5;
         public Countdown initialTimer;
         public Countdown memoriseTimer;
         public GameObject blueWinTree;
-        public GameObject redWinTree;
+        public GameObject redWinTree;        
         public Image uiCurtain;
         public float curtainFadeOutRate = 0.2f;
         public float curtainFadeInRate = 0.4f;
         public string mainMenu = "MainMenu";
+        public GameObject winScreenTree;
+        public GameObject introScoreScreen;
+        public Text gameWinHeader;
 
     }
     public UISettings uiSettings;
-
+    public int winThreshold = 3;
     public MazeLightManager lightManager;
     public SimpleControl player1;
     public SimpleControl player2;
@@ -54,12 +58,16 @@ public class LevelManagerSMG : MonoBehaviour
     public WinArea player2WinArea;
     private float clock;
     private int mode = 0;
+    
 
     [SerializeField]
     MazeGenerator maze;
 
-	// Use this for initialization
-	void Start ()
+    int p1Score;
+    int p2Score;
+
+    // Use this for initialization
+    void Start ()
     {
         uiSettings.UIRoot.SetActive(true);
         uiSettings.initialTimer.time = uiSettings.introInstrTime;
@@ -72,6 +80,34 @@ public class LevelManagerSMG : MonoBehaviour
         InitWinAreas();
 
         clock = uiSettings.introInstrTime;
+
+        ManageScore();
+    }
+
+    void ManageScore()
+    {
+        p1Score = PlayerPrefs.GetInt("P1Score");
+        p2Score = PlayerPrefs.GetInt("P2Score");
+
+        Debug.Log("MANA " + p1Score + "," + p2Score);
+
+        if (p1Score >= winThreshold || p1Score >= winThreshold)
+        {   
+            Color curtainCol = uiSettings.uiCurtain.color;
+            curtainCol.a = 1;
+            uiSettings.uiCurtain.color = curtainCol;
+
+            uiSettings.winScreenTree.SetActive(true);
+            uiSettings.introScoreScreen.SetActive(false);
+
+            if (p1Score >= winThreshold)
+                uiSettings.gameWinHeader.text = "BLUE WINS!!";
+
+            if (p2Score >= winThreshold)
+                uiSettings.gameWinHeader.text = "RED WINS!!";
+
+            mode = -1;
+        }
     }
 
     void InitPlayers()
@@ -171,6 +207,14 @@ public class LevelManagerSMG : MonoBehaviour
             else
             {
                 FadeCurtain(-1, uiSettings.curtainFadeOutRate);
+            }
+        }
+
+        if(mode == -1)
+        {
+            if(Input.GetKey(KeyCode.Escape))
+            {
+                SceneManager.LoadScene(uiSettings.mainMenu);
             }
         }
 	}

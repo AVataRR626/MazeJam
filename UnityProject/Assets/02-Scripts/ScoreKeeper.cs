@@ -12,12 +12,12 @@ public class ScoreKeeper : MonoBehaviour
     int p1Score;
     int p2Score;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start()
     {
         myText = GetComponent<Text>();
 
-        if(resetScores)
+        if (resetScores)
         {
             PlayerPrefs.SetInt("P1Score", 0);
             PlayerPrefs.SetInt("P2Score", 0);
@@ -38,17 +38,44 @@ public class ScoreKeeper : MonoBehaviour
             PlayerPrefs.SetInt("P2Score", p2Score);
         }
 
-        
+
 
     }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-	    if(myText != null)
-        {
-            myText.text = "Blue: " + p1Score.ToString() + " | Red: " + p2Score.ToString();
-        }
-	}
 
+    // Update is called once per frame
+    void Update()
+    {
+        if (myText != null)
+        {
+
+            myText.text = "Blue: " + p1Score.ToString() + " | Red: " + p2Score.ToString();
+
+            /*
+            if (p1Score < winThreshold && p1Score < winThreshold)
+            {
+                myText.text = "Blue: " + p1Score.ToString() + " | Red: " + p2Score.ToString();
+            }
+            else
+            {
+                
+                if(p1Score >= winThreshold)
+                {
+                    myText.text = "BLUE WINS!!\n";
+                }
+
+                if (p2Score >= winThreshold)
+                {
+                    myText.text = "RED WINS!!\n";
+                }
+
+                myText.text += "Blue: " + p1Score.ToString() + " | Red: " + p2Score.ToString();
+
+                Time.timeScale = 0;
+                
+            }
+        
+        */
+        }
+
+    }
 }
