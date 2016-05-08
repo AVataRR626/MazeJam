@@ -91,7 +91,7 @@ public class LevelManagerSMG : MonoBehaviour
 
         Debug.Log("MANA " + p1Score + "," + p2Score);
 
-        if (p1Score >= winThreshold || p1Score >= winThreshold)
+        if (p1Score >= winThreshold || p2Score >= winThreshold)
         {   
             Color curtainCol = uiSettings.uiCurtain.color;
             curtainCol.a = 1;

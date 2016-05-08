@@ -3935,7 +3935,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 411202, guid: f535e5abf1581e44ab04c7447d60e61e, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f535e5abf1581e44ab04c7447d60e61e, type: 2}
@@ -5744,7 +5744,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 402162, guid: 8fad1f28c9b538948a4ae1a92cd3f458, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8fad1f28c9b538948a4ae1a92cd3f458, type: 2}
@@ -7460,7 +7460,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 480648, guid: 1fdb1ebfedd98a445b5df5c7fff681c9, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1fdb1ebfedd98a445b5df5c7fff681c9, type: 2}
@@ -9411,9 +9411,11 @@ MonoBehaviour:
       x: 30
       y: 5
     PrefabXOffsetFromHole: 0
-  AlgorithmStartingPosition:
-    x: 8
-    y: 9
+  initialWaitPeriod: 4
+  approximateBuildingTime: 2
+  algorithmStartingPosition:
+    x: 0
+    y: 0
   useRandomAlgorithmStartingPos: 1
 --- !u!4 &381113747
 Transform:
@@ -32462,7 +32464,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 406342, guid: 3ab65927b821ceb4a82b0ecfbf1ce844, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3ab65927b821ceb4a82b0ecfbf1ce844, type: 2}
@@ -39014,7 +39016,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 481268, guid: 98d1b7cf856f02b40a8cee13359be5f0, type: 2}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 98d1b7cf856f02b40a8cee13359be5f0, type: 2}
@@ -46496,7 +46498,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 489768, guid: e30b02e41da0f2c459ce0675cd599953, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e30b02e41da0f2c459ce0675cd599953, type: 2}
@@ -55931,7 +55933,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 404796, guid: a2c7069125bf460469181636c0f0a898, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a2c7069125bf460469181636c0f0a898, type: 2}
