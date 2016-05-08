@@ -59,7 +59,7 @@ public class Flicker : MonoBehaviour
 
         if (Input.GetKey(reduceKey))
         {
-            light.intensity *= 0.75f;
+            //light.intensity *= 0.75f;
             light.range *= 0.9f;
         }
     }

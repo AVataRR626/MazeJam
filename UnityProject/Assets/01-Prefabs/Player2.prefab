@@ -235,11 +235,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d6597a391341714491d9b5572be6e90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reduceKey: 303
+  reduceKey: 304
   speed: 28
   amount: 2
-  startIntensity: 5
-  startRange: 7
+  startIntensity: 6
+  startRange: 7.2
   rangeFactor: 0.02
   isDimmedByGlobalLight: 1
 --- !u!114 &11433054

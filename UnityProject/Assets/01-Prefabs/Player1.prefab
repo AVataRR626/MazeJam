@@ -238,8 +238,8 @@ MonoBehaviour:
   reduceKey: 304
   speed: 28
   amount: 2
-  startIntensity: 5
-  startRange: 7
+  startIntensity: 6
+  startRange: 7.2
   rangeFactor: 0.02
   isDimmedByGlobalLight: 1
 --- !u!114 &11492592
