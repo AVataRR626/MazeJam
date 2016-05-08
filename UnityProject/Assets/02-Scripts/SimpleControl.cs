@@ -15,6 +15,8 @@ public class SimpleControl : MonoBehaviour
     public float sprintSpeed = 20;
     public bool pacmanMode = false;
     Vector3 delta = Vector3.zero;
+    public GameObject graphics;
+    public float rotation;
 
     // Use this for initialization
     void Start ()
@@ -38,7 +40,38 @@ public class SimpleControl : MonoBehaviour
             disableTimer -= Time.deltaTime;
         }
 
-	}
+        ManageRotation();
+    }
+
+    void ManageRotation()
+    {
+        if(graphics != null)
+        {
+            graphics.transform.rotation = Quaternion.Euler(-90, 0, rotation);
+
+
+            if (Input.GetKey(up))
+            {
+                rotation = 180;
+            }
+
+            if (Input.GetKey(down))
+            {
+                rotation = 0;
+            }
+
+            if (Input.GetKey(left))
+            {
+                rotation = 90;
+            }
+
+            if (Input.GetKey(right))
+            {
+                rotation = -90;
+            }
+        }
+    }
+
 
     void ManageMove()
     {
