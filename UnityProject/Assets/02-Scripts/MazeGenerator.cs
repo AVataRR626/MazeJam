@@ -22,9 +22,17 @@ public class MazeGenerator : MonoBehaviour {
 
     //////
 
-  
+    public float initialWaitPeriod = 4.0f;
+
+    float iterationWaitingPeriod;
+
+    public float approximateBuildingTime = 2.0f;
+
+    //////
+
+
     [SerializeField]
-    IntVector2 AlgorithmStartingPosition;
+    IntVector2 algorithmStartingPosition;
 
     [SerializeField]
     bool useRandomAlgorithmStartingPos = false;
@@ -44,9 +52,19 @@ public class MazeGenerator : MonoBehaviour {
 
     Cell[][] maze;
 
+    List<Cell> cells;
+
+    List<CellLink> allCellLinks;
+
+    List<Cell> pathToGoal;
+
     void Awake () {
 		Debug.Log ("Awake");
-	}
+
+        Invoke("GenerateMaze", initialWaitPeriod);
+
+        iterationWaitingPeriod = approximateBuildingTime / (width * height);
+    }
 
     [System.Serializable]
     struct GameArea
@@ -67,6 +85,40 @@ public class MazeGenerator : MonoBehaviour {
             x = _x;
             y = _y;
         }
+
+        
+        public override string ToString()
+        {
+            return "x: " + x + " y: " + y;
+        }
+
+        public float DistanceTo(IntVector2 other)
+        {
+            return Mathf.Sqrt(Mathf.Pow(x - other.x, 2) + Mathf.Pow(y - other.y, 2));
+        }
+    }
+
+    class CellLink
+    {
+        public Cell start;
+        public Cell end;
+
+        public CellLink(Cell _start, Cell _end)
+        {
+            start = _start;
+            end = _end;
+        }
+
+        public override string ToString()
+        {
+            if (end != null)
+            {
+                return "start: " + start.ToString() + " end: " + end.ToString();
+            } else
+            {
+                return "start: " + start.ToString() + " end: null";
+            }
+        }
     }
 
     public void GenerateMaze()
@@ -74,7 +126,7 @@ public class MazeGenerator : MonoBehaviour {
         Debug.Log("Generating Maze");
 
         //delete previous maze
-        for(int i = transform.childCount - 1; i >= 0; i--)
+        for (int i = transform.childCount - 1; i >= 0; i--)
         {
             DestroyImmediate(transform.GetChild(i).gameObject);
         }
@@ -95,67 +147,105 @@ public class MazeGenerator : MonoBehaviour {
 
         DrawBorder();
 
-        List<Cell> cells = new List<Cell>();
+        cells = new List<Cell>();
+        allCellLinks = new List<CellLink>();
+        pathToGoal = new List<Cell>();
 
         //Add one cell to C, at random, mark as visited
         if (useRandomAlgorithmStartingPos)
         {
-            AlgorithmStartingPosition.x = (int)Random.Range(0, width);
-            AlgorithmStartingPosition.y = (int)Random.Range(0, height);
+            algorithmStartingPosition.x = (int)Random.Range(0, width);
+            algorithmStartingPosition.y = (int)Random.Range(0, height);
         }
 
-        cells.Add(maze[AlgorithmStartingPosition.x][AlgorithmStartingPosition.y]);
-        DestroyImmediate(cells[cells.Count - 1].associatedWallPiece);
-        cells[cells.Count - 1].state = State.Visited;
+        VisitCell(maze[algorithmStartingPosition.x][algorithmStartingPosition.y]);
+        maze[algorithmStartingPosition.x][algorithmStartingPosition.y].associatedWallPiece.AddComponent<BlockMover>();
+
         Debug.Log("Starting Cell - x:" + cells[cells.Count - 1].position.x + " y:" + cells[cells.Count - 1].position.y);
 
-        while (cells.Count > 0) {
-            //get neighbours
-            List<Cell> neighbours = cells[cells.Count - 1].GetNeighbours(maze);
-
-            //pick random neighbour and add to active cells list, mark as visited
-            if (neighbours.Count != 0)
+        if (UnityEditor.EditorApplication.isPlaying == true)
+        {
+            MazeIterate();
+        } else
+        {
+            Debug.Log("Created in edit mode");
+            while(cells.Count > 0)
             {
-                cells.Add(neighbours[Random.Range(0, neighbours.Count)]);
-                DestroyImmediate(cells[cells.Count - 1].associatedWallPiece);
-                cells[cells.Count - 1].state = State.Visited;
-            } else //all neighbours have been visited so backtrack
-            {
-                cells[cells.Count - 1].state = State.Backtracked;
-                cells.RemoveAt(cells.Count - 1);
+                MazeIterateInnerLoop();
             }
-        }
 
-        /*
-        if (useRandomEndPos)
-        {
-            endPosition.x = (int)Random.Range(0, width);
-            endPosition.y = (int)Random.Range(0, height);
-        }
-        DeleteBlocksAround(startingPosition);
-        DeleteBlocksAround(endPosition);
-        
-        
-        DeleteBlocks(starts, -1);
-        DeleteBlocks(starts, 0);
-        DeleteBlocks(goals, width - 1);
-        DeleteBlocks(goals, width);
+            SetupAllGameAreas();
+            DestroyStartingPieceAndChildren();
 
-        for (int i = 0; i < starts.Length; i++)
-        {
-            SpawnObject(PlayerSpawner);
+            //FindPathToCell();
         }
-        for (int i = 0; i < goals.Length; i++)
-        {
-            SpawnObject(GoalSpawner);
-        }
-        */
+    }
 
+    void SetupAllGameAreas()
+    {
         SetupHolePositions();
-
         SetupGameAreas(starts);
         SetupGameAreas(goals);
+    }
 
+    void MazeIterate()
+    {
+        if (cells.Count > 0)
+        {
+            MazeIterateInnerLoop();
+
+            Invoke("MazeIterate", iterationWaitingPeriod);
+        } else
+        {
+            Debug.Log("Finished");
+            SetupAllGameAreas();
+            Invoke("DestroyStartingPieceAndChildren", 0.5f);
+        }
+    }
+
+    void DestroyStartingPieceAndChildren()
+    {
+        DestroyImmediate(maze[algorithmStartingPosition.x][algorithmStartingPosition.y].associatedWallPiece);
+    }
+
+    void MazeIterateInnerLoop()
+    {
+        //get neighbours
+        List<Cell> neighbours = cells[cells.Count - 1].GetNeighbours(maze);
+
+        //pick random neighbour and add to active cells list, mark as visited
+        if (neighbours.Count != 0)
+        {
+            VisitCell(neighbours[Random.Range(0, neighbours.Count)]);
+        }
+        else //all neighbours have been visited so backtrack
+        {
+            cells[cells.Count - 1].state = State.Backtracked;
+
+            CellLink newCellLink;
+
+            if (cells.Count - 2 < 0)
+            {
+                newCellLink = new CellLink(cells[cells.Count - 1], null);
+            }
+            else {
+                newCellLink = new CellLink(cells[cells.Count - 1], cells[cells.Count - 2]);
+            }
+
+            allCellLinks.Add(newCellLink);
+
+            cells.RemoveAt(cells.Count - 1);
+        }
+    }
+
+    void VisitCell(Cell cell)
+    {
+        cells.Add(cell);
+
+        cells[cells.Count - 1].state = State.Visited;
+
+        //parent to start block to create down movement
+        cells[cells.Count - 1].associatedWallPiece.transform.parent = maze[algorithmStartingPosition.x][algorithmStartingPosition.y].associatedWallPiece.transform;
     }
 
     void SetupGameAreas(GameArea[] area)
@@ -195,8 +285,7 @@ public class MazeGenerator : MonoBehaviour {
         {
             if ((int)transform.GetChild(k).transform.position.x == (int)(xValue + transform.position.x) && (int)transform.GetChild(k).transform.position.z == (int)(yValue + transform.position.z))
             {
-                Debug.Log(xValue + transform.position.x + " : " + transform.GetChild(k).transform.position.x);
-                DestroyImmediate(transform.GetChild(k).gameObject);
+                 DestroyImmediate(transform.GetChild(k).gameObject);
             }
         }
     }
@@ -241,18 +330,70 @@ public class MazeGenerator : MonoBehaviour {
         }
     }
 
-    /*
-    void DeleteBlocksAround(IntVector2 position)
+    void FindPathToCell(Cell goal)
     {
-        for (int i = transform.childCount - 1; i >= 0; i--)
+        CellLink currentLink = null;
+        Cell destination = maze[algorithmStartingPosition.x][algorithmStartingPosition.y];
+        // Cell start = maze[goals[0].holePosition.x - 1][goals[0].holePosition.y];
+        Cell start = goal; //we start at thegoal and backtrace
+
+        Debug.Log("Destination of path will be at, " + destination.position.ToString());
+
+
+        foreach (CellLink link in allCellLinks)
         {
-            if(Mathf.Abs(transform.GetChild(i).transform.position.x - (position.x + transform.position.x)) <= deletionRange && Mathf.Abs(transform.GetChild(i).transform.position.z - (position.y + transform.position.z)) <= deletionRange)
+            if (link.start == start)
             {
-                DestroyImmediate(transform.GetChild(i).gameObject); 
+                Debug.Log("Found Start of Path: " + link.ToString());
+                currentLink = link;
+                pathToGoal.Add(currentLink.start);
+                break;
             }
         }
+        //didnt find starting cell next to goal pos
+        CellLink closestLink = null;
+        float closestDistance = 99999999;
+        if (currentLink == null)
+        {
+            foreach (CellLink link in allCellLinks)
+            {
+                if(link.start.position.DistanceTo(start.position) < closestDistance)
+                {
+                    closestLink = link;
+                    closestDistance = link.start.position.DistanceTo(start.position);
+                }
+            }
+
+            currentLink = closestLink;
+            pathToGoal.Add(currentLink.start);
+            Debug.Log("Found Almost Start of Path: " + currentLink.ToString());
+        }
+
+        foreach (CellLink link in allCellLinks)
+        {
+            if (link.end == destination)
+            {
+                Debug.Log("Found Destination of Path: " + link.ToString());
+
+                break;
+            }
+        }
+
+        while (currentLink.end != null && currentLink.end != destination)
+        {
+            foreach (CellLink link in allCellLinks)
+            {
+                if (link.start == currentLink.end)
+                {
+                    currentLink = link;
+                    pathToGoal.Add(currentLink.start);
+                    break;
+                }
+            }
+        }
+
+        Debug.Log("Found path of length " + pathToGoal.Count);
     }
-    */
 
     void OnDrawGizmos()
     {
@@ -267,12 +408,40 @@ public class MazeGenerator : MonoBehaviour {
         {
             Gizmos.DrawCube(new Vector3(transform.position.x + width, 0, transform.position.z + goals[i].holePosition.y), Vector3.one);
         }
+
+        if (allCellLinks != null)
+        {
+            Gizmos.color = Color.green;
+            foreach (CellLink link in allCellLinks)
+            {
+                if (link.end != null)
+                {
+                    Vector3 startPos = new Vector3(link.start.position.x, 0, link.start.position.y) + transform.position;
+                    Vector3 endPos = new Vector3(link.end.position.x, 0, link.end.position.y) + transform.position;
+                    Gizmos.DrawLine(startPos, endPos);
+                }
+            }
+        }
+
+        if (pathToGoal != null)
+        {
+            Gizmos.color = Color.yellow;
+            for (int i = 1; i < pathToGoal.Count; i++)
+            {
+                Vector3 startPos = new Vector3(pathToGoal[i].position.x, 0, pathToGoal[i].position.y) + transform.position;
+                Vector3 endPos = new Vector3(pathToGoal[i - 1].position.x, 0, pathToGoal[i - 1].position.y) + transform.position;
+                Gizmos.DrawLine(startPos, endPos);
+            }
+        }
+
+        Gizmos.color = Color.black;
+        Gizmos.DrawCube(new Vector3(transform.position.x + algorithmStartingPosition.x, 0, transform.position.z + algorithmStartingPosition.y), Vector3.one);
     }
 
     private class Cell
     {
         public IntVector2 position;
-        public GameObject associatedWallPiece;
+        public GameObject associatedWallPiece = null;
         public State state = State.Unvisited;
         private Cell[][] mazeParent;
 
@@ -281,6 +450,11 @@ public class MazeGenerator : MonoBehaviour {
             position = pos;
             associatedWallPiece = _g;
             mazeParent = parent;
+        }
+
+        public override string ToString()
+        {
+            return position.ToString();
         }
 
         public bool IsCellOnGrid(int x, int y)

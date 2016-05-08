@@ -10243,9 +10243,11 @@ MonoBehaviour:
       x: 30
       y: 5
     PrefabXOffsetFromHole: 0
-  AlgorithmStartingPosition:
-    x: 6
-    y: 27
+  initialWaitPeriod: 4
+  approximateBuildingTime: 1
+  algorithmStartingPosition:
+    x: 0
+    y: 0
   useRandomAlgorithmStartingPos: 1
 --- !u!4 &381113747
 Transform:
@@ -23553,9 +23555,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 118442, guid: 8b4bcf61f516930409daddfe37e2f2f1, type: 2}
-      propertyPath: m_IsActive
-      value: 0
+    - target: {fileID: 11413532, guid: 8b4bcf61f516930409daddfe37e2f2f1, type: 2}
+      propertyPath: uiSettings.curtainFadeInRate
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8b4bcf61f516930409daddfe37e2f2f1, type: 2}

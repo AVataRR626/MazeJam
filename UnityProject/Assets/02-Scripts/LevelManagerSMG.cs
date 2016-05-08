@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LevelManagerSMG : MonoBehaviour
 {
@@ -37,6 +39,11 @@ public class LevelManagerSMG : MonoBehaviour
         public Countdown memoriseTimer;
         public GameObject blueWinTree;
         public GameObject redWinTree;
+        public Image uiCurtain;
+        public float curtainFadeOutRate = 0.2f;
+        public float curtainFadeInRate = 0.4f;
+        public string mainMenu = "MainMenu";
+
     }
     public UISettings uiSettings;
 
@@ -46,6 +53,7 @@ public class LevelManagerSMG : MonoBehaviour
     public WinArea player1WinArea;
     public WinArea player2WinArea;
     private float clock;
+    private int mode = 0;
 
     [SerializeField]
     MazeGenerator maze;
@@ -57,11 +65,13 @@ public class LevelManagerSMG : MonoBehaviour
         uiSettings.initialTimer.time = uiSettings.introInstrTime;
 
         maze = GameObject.FindObjectOfType<MazeGenerator>();
-        maze.GenerateMaze();
+      //  maze.GenerateMaze();
 
         InitPlayers();
         InitLight();
         InitWinAreas();
+
+        clock = uiSettings.introInstrTime;
     }
 
     void InitPlayers()
@@ -114,6 +124,61 @@ public class LevelManagerSMG : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-	
+	    if(mode == 0)
+        {
+            if (clock > 0)
+            {
+                clock -= Time.deltaTime;
+            }
+            else
+            {
+                if(uiSettings.uiCurtain.color.a > 0)
+                {
+
+                    FadeCurtain(-1,uiSettings.curtainFadeOutRate);
+                    /*
+                    Color c = uiSettings.uiCurtain.color;
+                    c.a -= Time.deltaTime * uiSettings.curtainFadeRate;
+                    uiSettings.uiCurtain.color = c;
+                    */
+                }
+                else
+                {
+                    mode = 1;
+
+                    Color c = uiSettings.uiCurtain.color;
+                    c.a = 0;
+                    uiSettings.uiCurtain.color = c;
+                }
+            }
+        }
+
+        if(mode == 1)
+        {
+            if(Input.GetKey(KeyCode.Escape))
+            {
+                Debug.Log("SECESCESC " + uiSettings.uiCurtain.color.a);
+                if (uiSettings.uiCurtain.color.a < 1)
+                {
+                    FadeCurtain(1, uiSettings.curtainFadeInRate);
+                }
+                else
+                {
+                    SceneManager.LoadScene(uiSettings.mainMenu);
+                }
+
+            }
+            else
+            {
+                FadeCurtain(-1, uiSettings.curtainFadeOutRate);
+            }
+        }
 	}
+
+    void FadeCurtain(float fadeFactor, float fadeRate)
+    {
+        Color c = uiSettings.uiCurtain.color;
+        c.a += Time.deltaTime * fadeRate * fadeFactor;
+        uiSettings.uiCurtain.color = c;
+    }
 }
