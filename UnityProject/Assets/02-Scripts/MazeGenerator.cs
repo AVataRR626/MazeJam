@@ -192,9 +192,9 @@ public class MazeGenerator : MonoBehaviour {
     {
         if (cells.Count > 0)
         {
-            MazeIterateInnerLoop();
-
             Invoke("MazeIterate", iterationWaitingPeriod);
+
+            MazeIterateInnerLoop();
         } else
         {
             Debug.Log("Finished");
@@ -260,11 +260,47 @@ public class MazeGenerator : MonoBehaviour {
                 DeleteBlock(area[i].holePosition.x, area[i].holePosition.y);
                 DeleteBlock(area[i].holePosition.x - 1, area[i].holePosition.y);
 
+                //goal areas
+                if (area[i].holePosition.x - 1 >= width - 1)
+                {
+                    if (!HasPathNextToCell(maze[area[i].holePosition.x - 1][area[i].holePosition.y]))
+                    {
+                        Debug.Log("Deleted Extra block at x: " + (area[i].holePosition.x - 2) + " y: " + area[i].holePosition.y);
+                        DeleteBlock(area[i].holePosition.x - 2, area[i].holePosition.y);
+                    }
+                }
+
+                //start areas
+                if(area[i].holePosition.x - 1 < 0) {
+                    if (!HasPathNextToCell(maze[area[i].holePosition.x][area[i].holePosition.y]))
+                    {
+                        Debug.Log("Deleted Extra block at x: " + (area[i].holePosition.x + 1) + " y: " + area[i].holePosition.y);
+                        DeleteBlock(area[i].holePosition.x + 1, area[i].holePosition.y);
+                    }
+                }
+
                 GameObject tempGameArea = Instantiate(area[i].prefab, new Vector3(transform.position.x + area[i].PrefabXOffsetFromHole + area[i].holePosition.x, transform.position.y, transform.position.z + area[i].holePosition.y), Quaternion.identity) as GameObject;
                 tempGameArea.transform.parent = transform;
             }
         }
     }
+
+    bool HasPathNextToCell(Cell cell)
+    {
+        //one above
+        Cell above = maze[cell.position.x][cell.position.y + 1];
+
+        //one below
+        Cell below = maze[cell.position.x][cell.position.y - 1];
+
+        if(above.state == State.Backtracked || below.state == State.Backtracked)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
 
     void SetupHolePositions()
     {
