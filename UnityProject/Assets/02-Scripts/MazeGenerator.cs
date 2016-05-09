@@ -165,9 +165,27 @@ public class MazeGenerator : MonoBehaviour {
 
         Debug.Log("Starting Cell - x:" + cells[cells.Count - 1].position.x + " y:" + cells[cells.Count - 1].position.y);
 
-
-
+#if UNITY_EDITOR
+        if (UnityEditor.EditorApplication.isPlaying == true)
+        {
+#else
+        if (false)
+        {
+#endif
+            
             MazeIterate();
+        }
+        else
+        {
+            Debug.Log("Created in edit mode");
+            while (cells.Count > 0)
+            {
+                MazeIterateInnerLoop();
+            }
+
+            SetupAllGameAreas();
+            DestroyStartingPieceAndChildren();
+        }
 
     }
 
